@@ -3,11 +3,15 @@
 import { CiMenuBurger } from 'react-icons/ci'
 import Avatar from '../Avatar';
 import { useCallback, useState } from 'react';
-import MenuItem from './MenuItem';
-import useRegisterModal from '../../hooks/useRegisterModal';
-import useLoginModal from '@/app/hooks/useLoginModal';
 import { signOut } from 'next-auth/react';
 import { SafeUser } from '@/app/types';
+
+import MenuItem from './MenuItem';
+
+import useRegisterModal from '../../hooks/useRegisterModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
+import useRentModal from '@/app/hooks/useRentModal';
+
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -18,17 +22,26 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const rentModal = useRentModal();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, [])
 
+    const onRent = useCallback(() => {
+        if (!currentUser) {
+            return loginModal.onOpen();
+        }
+
+        rentModal.onOpen();
+    }, [currentUser, loginModal, rentModal])
+
     return (
         <div className='relative'>
             <div className="flex flex-row items-center gap-3">
                 <div
-                    onClick={() => { }}
+                    onClick={onRent}
                     className="
                         hidden
                         md:block
@@ -89,16 +102,24 @@ const UserMenu: React.FC<UserMenuProps> = ({
                             <>
                                 <MenuItem
                                     onClick={() => { }}
-                                    label='My something' />
+                                    label='My something'
+                                />
                                 <MenuItem
                                     onClick={() => { }}
-                                    label='My anything' />
+                                    label='My anything'
+                                />
                                 <MenuItem
                                     onClick={() => { }}
-                                    label='My options' />
+                                    label='My options'
+                                />
+                                <MenuItem
+                                    onClick={rentModal.onOpen}
+                                    label='My Home!'
+                                />
                                 <MenuItem
                                     onClick={signOut}
-                                    label='Logout' />
+                                    label='Logout'
+                                />
                             </>
                         ) : (
                             <>
