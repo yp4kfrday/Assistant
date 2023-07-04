@@ -120,7 +120,7 @@ const RentModal = () => {
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-            title="Your Home!"
+            title="Your Home Assistant!"
             body={bodyContent}
         />
     )
