@@ -9,3 +9,10 @@ body,
   background-color: white;
   color-scheme: white;
 }
+
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top {
+  z-index: 0 !important;
+}
